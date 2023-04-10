@@ -1,4 +1,4 @@
-use std::{net::SocketAddr};
+use std::{net::{SocketAddr, TcpListener}};
 
 #[tokio::main]
 async fn main() {
@@ -7,7 +7,8 @@ async fn main() {
 }
 
 pub async fn run(addr: SocketAddr) {
-    println!("Starting server");
-    let server = zero2prod::new_server(addr);
+    let listener = TcpListener::bind(addr).expect("uanble to bind to port");
+    let server = zero2prod::new_server(listener);
     server.await.expect("unable to start server");
 }
+
